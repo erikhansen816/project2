@@ -11,7 +11,9 @@ HIT = 2
 SQUARESIZE = 50
 
 def buildBoard():
-    return
+    return [['O','O','O','O','O'],['O','O','O','O','O'],['O','O','O','O','O'],['O','O','O','O','O'],['O','O','O','O','O']]
+
+buildBoard()
     
 def reDrawAll():
     for item in App().spritelist[:]:
@@ -19,6 +21,9 @@ def reDrawAll():
     for row in range(0,5):
         for col in range(0,5):
             Sprite(square,(10+row*SQUARESIZE,10+col*SQUARESIZE))
+    for row in range(0,5):
+        for col in range(0,5):
+            Sprite(square,(10+row*SQUARESIZE+300,10+col*SQUARESIZE))
 
 if __name__ == '__main__':
     black = Color(0x000000,1)
