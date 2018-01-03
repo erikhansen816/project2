@@ -3,6 +3,7 @@
 #battleship.py
 
 from ggame import *
+from random import randint
 
 #Constants
 EMPTY = 0
@@ -31,13 +32,13 @@ def reDrawAll():
                 Sprite(square_hit,(row*SQUARESIZE,col*SQUARESIZE))
     for row in range(0,5):
         for col in range(0,5):
-            if data['playerboard'][row][col] == EMPTY:
+            if data['computerboard'][row][col] == EMPTY:
                 Sprite(square_empty,(row*SQUARESIZE+300,col*SQUARESIZE))
-            if data['playerboard'][row][col] == SHIP:
-                Sprite(square_ship,(row*SQUARESIZE+300,col*SQUARESIZE))
-            if data['playerboard'][row][col] == MISS:
+            if data['computerboard'][row][col] == SHIP:
+                Sprite(square_empty,(row*SQUARESIZE+300,col*SQUARESIZE))
+            if data['computerboard'][row][col] == MISS:
                 Sprite(square_miss,(row*SQUARESIZE+300,col*SQUARESIZE))
-            if data['playerboard'][row][col] == HIT:
+            if data['computerboard'][row][col] == HIT:
                 Sprite(square_hit,(row*SQUARESIZE+300,col*SQUARESIZE))
             
 
@@ -46,21 +47,30 @@ def mouseClick(event):
         if event.x <= SQUARESIZE*5 and event.y <= SQUARESIZE*5:
             pickcolumn = event.x//SQUARESIZE
             pickrow = event.y//SQUARESIZE
-            if data['playerboard'][pickrow][pickcolumn] != SHIP:
-                data['playerboard'][pickrow][pickcolumn] = SHIP
+            if data['playerboard'][pickcolumn][pickrow] != SHIP:
+                data['playerboard'][pickcolumn][pickrow] = SHIP
                 data['shipcount']+=1
-                Sprite(square_ship,(pickrow*SQUARESIZE,pickcolumn*SQUARESIZE))
+                reDrawAll()
     else:
         if event.x >= 300 and event.x<=300+SQUARESIZE*5:
             choosecolumn = (event.x-300)//SQUARESIZE
             chooserow = event.y//SQUARESIZE
-            if data['computerboard'][chooserow][choosecolumn] == EMPTY:
-                data['computerboard'][chooserow][choosecolumn] = MISS
-                
+            if data['computerboard'][choosecolumn][chooserow] == EMPTY:
+                data['computerboard'][choosecolumn][chooserow] = MISS
+                reDrawAll()
+            elif data['computerboard'][choosecolumn][chooserow] == SHIP:
+                data['computerboard'][choosecolumn][chooserow] = HIT
+                reDrawAll()
+            elif data['computerboard'][choosecolumn][chooserow] == MISS:
+                data['computerboard'][choosecolumn][chooserow] = MISS
+                reDrawAll()
+            elif data['computerboard'][choosecolumn][chooserow] == HIT:
+                data['computerboard'][choosecolumn][chooserow] = HIT
+                reDrawAll()
 
 def pickComputerShips():
-    pick = false
-    if pick == false:
+    pick = False
+    if pick == False:
         cships = 0
         while cships<3:
             row = randint(0,4)
@@ -68,17 +78,19 @@ def pickComputerShips():
             if data['computerboard'][row][col] != SHIP:
                 data['computerboard'][row][col] = SHIP
                 cships += 1
-"""            
+
 def computerTurn():
-    pick = false
-    if pick == false:
-        cships = 0
-        while cships<3:
+    pick = False
+    if pick == False:
+        pships = 0
+        while pships<3:
             row = randint(0,4)
             col = randint(0,4)
-            if data['computerboard'][row][col] != SHIP:
-                data['computerboard'][row][col] = SHIP
-                cships += 1"""
+            if data['playerboard'][row][col] == SHIP:
+                data['playerboard'][row][col] = HIT
+                cships += 1
+            else:
+                data['playerboard'][row][col] = MISS
 
 if __name__ == '__main__':
     
@@ -101,5 +113,6 @@ if __name__ == '__main__':
     square_hit = RectangleAsset(SQUARESIZE,SQUARESIZE,blackOutline,red)
     square_ship = RectangleAsset(SQUARESIZE,SQUARESIZE,blackOutline,blue)
     reDrawAll()
+    pickComputerShips()
     App().listenMouseEvent("click", mouseClick)
     App().run()
