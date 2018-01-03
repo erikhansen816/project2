@@ -83,6 +83,7 @@ def pickComputerShips():
             if data['computerboard'][row][col] != SHIP:
                 data['computerboard'][row][col] = SHIP
                 cships += 1
+        pick = True
 
 def computerTurn():
     pick = False
@@ -94,8 +95,11 @@ def computerTurn():
             if data['playerboard'][row][col] == SHIP:
                 data['playerboard'][row][col] = HIT
                 pships += 1
+                reDrawAll()
             else:
                 data['playerboard'][row][col] = MISS
+                reDrawAll()
+        
 
 if __name__ == '__main__':
     
