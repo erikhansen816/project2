@@ -86,19 +86,14 @@ def pickComputerShips():
         pick = True
 
 def computerTurn():
-    pick = False
-    if pick == False:
-        pships = 0
-        while pships<3:
-            row = randint(0,4)
-            col = randint(0,4)
-            if data['playerboard'][row][col] == SHIP:
-                data['playerboard'][row][col] = HIT
-                pships += 1
-                reDrawAll()
-            else:
-                data['playerboard'][row][col] = MISS
-                reDrawAll()
+    row = randint(0,4)
+    col = randint(0,4)
+    if data['playerboard'][row][col] == SHIP:
+        data['playerboard'][row][col] = HIT
+        reDrawAll()
+    else:
+        data['playerboard'][row][col] = MISS
+        computerTurn()
         
 
 if __name__ == '__main__':
