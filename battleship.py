@@ -52,32 +52,38 @@ def mouseClick(event):
                 data['shipcount']+=1
                 reDrawAll()
     else:
-        if event.x >= 300 and event.x<=300+SQUARESIZE*5:
-            choosecolumn = (event.x-300)//SQUARESIZE
-            chooserow = event.y//SQUARESIZE
-            if data['computerboard'][choosecolumn][chooserow] == EMPTY:
-                data['computerboard'][choosecolumn][chooserow] = MISS
-                reDrawAll()
-                computer = True
+        if data['gameover'] == False:
+            if event.x >= 300 and event.x<=300+SQUARESIZE*5:
+                choosecolumn = (event.x-300)//SQUARESIZE
+                chooserow = event.y//SQUARESIZE
+                if data['computerboard'][choosecolumn][chooserow] == EMPTY:
+                    data['computerboard'][choosecolumn][chooserow] = MISS
+                    reDrawAll()
+                    computer = True
                 
-            elif data['computerboard'][choosecolumn][chooserow] == SHIP:
-                data['computerboard'][choosecolumn][chooserow] = HIT
-                data['chits'] +=1
-                reDrawAll()
-                computer = True
+                elif data['computerboard'][choosecolumn][chooserow] == SHIP:
+                    data['computerboard'][choosecolumn][chooserow] = HIT
+                    data['chits'] +=1
+                    reDrawAll()
+                    computer = True
                 
-            elif data['computerboard'][choosecolumn][chooserow] == MISS:
-                data['computerboard'][choosecolumn][chooserow] = MISS
-                reDrawAll()
-                computer = False
+                elif data['computerboard'][choosecolumn][chooserow] == MISS:
+                    data['computerboard'][choosecolumn][chooserow] = MISS
+                    reDrawAll()
+                    computer = False
                 
-            elif data['computerboard'][choosecolumn][chooserow] == HIT:
-                data['computerboard'][choosecolumn][chooserow] = HIT
-                reDrawAll()
-                computer = False
-            if computer == True:
-                computerTurn()
-            
+                elif data['computerboard'][choosecolumn][chooserow] == HIT:
+                    data['computerboard'][choosecolumn][chooserow] = HIT
+                    reDrawAll()
+                    computer = False
+                if computer == True:
+                    computerTurn()
+        if data['phits'] == 3:
+            data['gameover'] = True
+            Sprite(TextAsset("Computer wins!!!!", fill = black, style = "Bold 40pt Times"),(20,20))
+        if data['chits'] == 3:
+            data['gameover'] = True
+            Sprite(TextAsset("Player wins!!!!", fill = black, style = "Bold 40pt Times"),(20,20))        
 
 def pickComputerShips():
     pick = False
@@ -97,6 +103,7 @@ def computerTurn():
     if data['playerboard'][row][col] == SHIP:
         data['playerboard'][row][col] = HIT
         reDrawAll()
+        data['phits']+=1
     elif data['playerboard'][row][col] == MISS:
         computerTurn()
     elif data['playerboard'][row][col] == HIT:
@@ -104,12 +111,12 @@ def computerTurn():
     elif data['playerboard'][row][col] == EMPTY:
         data['playerboard'][row][col] = MISS
         reDrawAll()
-        
-        
+       
 
 if __name__ == '__main__':
     
     data = {}
+    data['gameover'] = False
     data['shipcount'] = 0
     data['chits'] = 0
     data['phits'] = 0
