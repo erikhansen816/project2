@@ -58,20 +58,26 @@ def mouseClick(event):
             if data['computerboard'][choosecolumn][chooserow] == EMPTY:
                 data['computerboard'][choosecolumn][chooserow] = MISS
                 reDrawAll()
-                computerTurn()
+                computer = True
+                
             elif data['computerboard'][choosecolumn][chooserow] == SHIP:
                 data['computerboard'][choosecolumn][chooserow] = HIT
                 data['chits'] +=1
                 reDrawAll()
-                computerTurn()
+                computer = True
+                
             elif data['computerboard'][choosecolumn][chooserow] == MISS:
                 data['computerboard'][choosecolumn][chooserow] = MISS
                 reDrawAll()
-                computerTurn()
+                computer = False
+                
             elif data['computerboard'][choosecolumn][chooserow] == HIT:
                 data['computerboard'][choosecolumn][chooserow] = HIT
                 reDrawAll()
+                computer = False
+            if computer == True:
                 computerTurn()
+            
 
 def pickComputerShips():
     pick = False
@@ -91,9 +97,14 @@ def computerTurn():
     if data['playerboard'][row][col] == SHIP:
         data['playerboard'][row][col] = HIT
         reDrawAll()
-    else:
-        data['playerboard'][row][col] = MISS
+    elif data['playerboard'][row][col] == MISS:
         computerTurn()
+    elif data['playerboard'][row][col] == HIT:
+        computerTurn()
+    elif data['playerboard'][row][col] == EMPTY:
+        data['playerboard'][row][col] = MISS
+        reDrawAll()
+        
         
 
 if __name__ == '__main__':
