@@ -15,6 +15,8 @@ SQUARESIZE = 50
 def buildBoard():
     return [[EMPTY]*5,[EMPTY]*5,[EMPTY]*5,[EMPTY]*5,[EMPTY]*5]
 
+
+
 buildBoard()
     
 def reDrawAll():
@@ -40,6 +42,8 @@ def reDrawAll():
                 Sprite(square_miss,(row*SQUARESIZE+300,col*SQUARESIZE))
             if data['computerboard'][row][col] == HIT:
                 Sprite(square_hit,(row*SQUARESIZE+300,col*SQUARESIZE))
+    Sprite(TextAsset("USER", fill = black, style = "Bold 24pt Times"),(10,SQUARESIZE*5))
+    Sprite(TextAsset("COMPUTER", fill = black, style = "Bold 24pt Times"),(310,SQUARESIZE*5))
             
 
 def mouseClick(event):
@@ -78,10 +82,10 @@ def mouseClick(event):
                     computer = False
                 if computer == True:
                     computerTurn()
-        if data['phits'] == 3:
+        if data['phits'] == 3 and data['chits']<3:
             data['gameover'] = True
             Sprite(TextAsset("Computer wins!!!!", fill = black, style = "Bold 40pt Times"),(20,22))
-        if data['chits'] == 3:
+        if data['chits'] == 3 and data['phits']<3:
             data['gameover'] = True
             Sprite(TextAsset("Player wins!!!!", fill = black, style = "Bold 40pt Times"),(320,22))        
 
