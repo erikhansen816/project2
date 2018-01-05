@@ -80,10 +80,10 @@ def mouseClick(event):
                     computerTurn()
         if data['phits'] == 3:
             data['gameover'] = True
-            Sprite(TextAsset("Computer wins!!!!", fill = black, style = "Bold 40pt Times"),(20,20))
+            Sprite(TextAsset("Computer wins!!!!", fill = black, style = "Bold 40pt Times"),(20,22))
         if data['chits'] == 3:
             data['gameover'] = True
-            Sprite(TextAsset("Player wins!!!!", fill = black, style = "Bold 40pt Times"),(20,20))        
+            Sprite(TextAsset("Player wins!!!!", fill = black, style = "Bold 40pt Times"),(320,22))        
 
 def pickComputerShips():
     pick = False
